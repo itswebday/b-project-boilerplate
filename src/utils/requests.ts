@@ -1,4 +1,4 @@
-import { LocaleOption } from "@/types";
+import type { LocaleOption } from "@/types";
 import { showError, showSuccess } from "@/utils";
 
 export const request = async <ResultData>(
@@ -10,37 +10,25 @@ export const request = async <ResultData>(
     body?: object | FormData;
     bodyType?: "json" | "formData";
     searchParams?: Record<string, string | number | boolean>;
-    defaultErrorMessage: string;
     successToast?: string;
-    hideErrorToasts?: boolean;
+    defaultErrorMessage: string;
     setIsLoading?: (isLoading: boolean) => void;
-    setErrors?: (errors: Error[]) => void;
     setResult?: (result: ResultData | null) => void;
     setData?: (data: ResultData | null) => void;
     callback?: () => void;
   },
-  debug = true,
+  debug = false,
 ) => {
   config.setIsLoading?.(true);
-  config.setErrors?.([]);
 
   try {
-    const urlParams = new URLSearchParams();
-
-    urlParams.append("locale", locale);
-
-    if (config.searchParams) {
-      Object.entries(config.searchParams).forEach(([key, value]) => {
-        urlParams.append(key, String(value));
-      });
-    }
-
-    const fullUrl = `${url}?${urlParams.toString()}`;
+    // Prepare the request options
     const requestOptions: RequestInit = {
       method,
-      credentials: method === "POST" ? "include" : "omit",
+      credentials: "include",
     };
 
+    // POST requests
     if (method === "POST") {
       if (config.body) {
         if (config.bodyType === "formData" || config.body instanceof FormData) {
@@ -54,66 +42,71 @@ export const request = async <ResultData>(
       }
     }
 
-    if (debug) {
-      console.log(`\n\n${method} request:`, fullUrl);
+    // Build URL with search parameters
+    const urlParams = new URLSearchParams();
+
+    urlParams.append("locale", locale);
+
+    if (config.searchParams) {
+      Object.entries(config.searchParams).forEach(([key, value]) => {
+        urlParams.append(key, String(value));
+      });
     }
 
+    const fullUrl = `${url}?${urlParams.toString()}`;
+
+    // Response
     const response = await fetch(fullUrl, requestOptions);
 
+    // Debug
     if (debug) {
+      console.log(`\n\n${method} request:`, fullUrl);
       console.log("Response:", response);
     }
 
-    if (!response.ok) {
-      try {
-        const errorResult = await response.json();
-        if (errorResult.data?.errors) {
-          throw errorResult.data.errors;
-        } else {
-          throw [{ message: config.defaultErrorMessage }];
-        }
-      } catch {
-        throw [{ message: config.defaultErrorMessage }];
-      }
-    }
-
+    // Result
     const result = await response.json();
 
+    // Debug
     if (debug) {
       console.log("Result:", result, "\n\n\n");
     }
 
-    if (result.status >= 400) {
-      config.setData?.(null);
-      throw (
-        result.data?.errors ?? [
-          { message: config.defaultErrorMessage, path: "general" },
-        ]
-      );
+    // Default response error
+    if (!response.ok) {
+      if (result.data?.errors) {
+        throw result.data.errors;
+      } else {
+        throw [{ message: config.defaultErrorMessage }];
+      }
     }
 
+    // Error in the result
+    if (result.status >= 400) {
+      config.setData?.(null);
+
+      if (result.data?.errors) {
+        throw result.data.errors;
+      } else {
+        throw [{ message: config.defaultErrorMessage }];
+      }
+    }
+
+    // Set the result
     config.setResult?.(result);
+
+    // Set the data
     config.setData?.(result.data);
 
+    // Show success toast
     if (config.successToast) {
       showSuccess(config.successToast);
     }
 
+    // Function to call after a successful request
     config.callback?.();
-  } catch (err) {
-    const errors: Error[] = Array.isArray(err)
-      ? err
-      : err instanceof Error
-        ? [err]
-        : [new Error(config.defaultErrorMessage)];
-
-    config.setErrors?.(errors);
-
-    if (!config.hideErrorToasts) {
-      for (const error of errors) {
-        showError(error.message);
-      }
-    }
+  } catch {
+    showError(config.defaultErrorMessage);
   } finally {
     config.setIsLoading?.(false);
   }

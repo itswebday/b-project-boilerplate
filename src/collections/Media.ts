@@ -8,20 +8,22 @@ const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: "media",
-  labels: {
-    singular: "Media asset",
-    plural: "Media assets",
-  },
   access: {
     create: authenticated,
     delete: authenticated,
     read: anyone,
     update: authenticated,
   },
+  admin: {
+    group: "Database",
+    useAsTitle: "alt",
+    defaultColumns: ["alt", "createdAt"],
+  },
   fields: [
     {
       name: "alt",
       type: "text",
+      required: true,
     },
   ],
   upload: {

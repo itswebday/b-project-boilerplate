@@ -29,6 +29,20 @@ const baseConfig = {
     ],
   },
 
+  // Add other config here if needed
+  async rewrites() {
+    return [
+      {
+        source: "/:locale/privacybeleid/:path*",
+        destination: "/:locale/privacy-policy/:path*",
+      },
+      {
+        source: "/:locale/algemene-voorwaarden/:path*",
+        destination: "/:locale/terms-and-conditions/:path*",
+      },
+    ];
+  },
+
   async redirects() {
     return [
       {
@@ -42,6 +56,26 @@ const baseConfig = {
         ],
         // TODO: Change to correct domain
         destination: "https://www.website.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/privacybeleid/:path*",
+        destination: "/privacy-policy/:path*",
+        permanent: true,
+      },
+      {
+        source: "/nl/privacy-policy/:path*",
+        destination: "/nl/privacybeleid/:path*",
+        permanent: true,
+      },
+      {
+        source: "/algemene-voorwaarden/:path*",
+        destination: "/terms-and-conditions/:path*",
+        permanent: true,
+      },
+      {
+        source: "/nl/terms-and-conditions/:path*",
+        destination: "/nl/algemene-voorwaarden/:path*",
         permanent: true,
       },
     ];

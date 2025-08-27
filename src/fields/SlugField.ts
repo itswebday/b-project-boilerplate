@@ -13,7 +13,7 @@ export const SlugField = ({
   name = "slug",
   label = "Slug",
   generatedFrom = "title",
-  description = `Automatically generated from the ${generatedFrom} field`,
+  description = `Automatisch gegenereerd op basis van de ${generatedFrom}`,
   sidebar = true,
   readOnly = true,
 }: SlugFieldProps = {}): Field => ({
@@ -23,7 +23,6 @@ export const SlugField = ({
   defaultValue: "",
   localized: true,
   unique: true,
-  required: true,
   admin: {
     description: description,
     position: sidebar ? "sidebar" : undefined,

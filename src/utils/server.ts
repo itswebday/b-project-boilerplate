@@ -1,6 +1,4 @@
-export { getCachedCollection, getCachedDocument } from "./collections";
+export { getCachedCollection, getCollection } from "./collections";
+export { handleApiError } from "./errors";
 export { getCachedGlobal, getGlobal } from "./globals";
-export { getMetadata } from "./metadata";
-export { mergeOpenGraph } from "./openGraph";
-export { getCachedPage, getPage } from "./pages";
-export { getPreviewPath } from "./preview";
+export { request } from "./requests";

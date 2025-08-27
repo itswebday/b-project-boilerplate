@@ -1,3 +1,3 @@
 export { scrollToTop } from "./helpers";
 export { request } from "./requests";
-export { showError, showInfo, showSuccess, showWarning } from "./toasts";
+export { showError, showSuccess, showWarning, showInfo } from "./toasts";

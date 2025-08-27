@@ -1,5 +1,4 @@
-import { NavBarNavMenu } from "@/components/server";
-import { NavMenuProvider } from "@/contexts";
+import { NavMenuProvider, PageProvider } from "@/contexts";
 import { routing } from "@/i18n";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
@@ -28,11 +27,10 @@ const HomeLayout = async ({
           <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
         </head>
 
-        <body className="text-medium font-poppins">
-          <NavMenuProvider>
-            <NavBarNavMenu />
-            {children}
-          </NavMenuProvider>
+        <body className="text-medium font-open-sans">
+          <PageProvider initialPage="home">
+            <NavMenuProvider>{children}</NavMenuProvider>
+          </PageProvider>
 
           <ToastContainer
             position="top-right"
@@ -46,7 +44,7 @@ const HomeLayout = async ({
               padding: "1.2rem",
               margin: "1rem",
               borderRadius: "0.5rem",
-              fontFamily: "Poppins, sans-serif",
+              fontFamily: "Open Sans, sans-serif",
               fontSize: "0.9rem",
               fontWeight: "500",
             }}

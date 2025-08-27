@@ -1,10 +1,19 @@
 {
-  "textAndImage": {
-    "tile": "Text",
-    "image": "Image",
-    "imageLeft": "Image on the left"
+  "home": {
+    "href": "/nl",
+    "en": "/",
+    "title": "Home"
   },
-  "errors": {
-    "defaultError": "Er is iets misgegaan"
+
+  "privacyPolicy": {
+    "href": "/nl/privacybeleid",
+    "en": "/privacy-policy",
+    "title": "Privacybeleid"
+  },
+
+  "termsAndConditions": {
+    "href": "/nl/algemene-voorwaarden",
+    "en": "/terms-and-conditions",
+    "title": "Algemene voorwaarden"
   }
 }

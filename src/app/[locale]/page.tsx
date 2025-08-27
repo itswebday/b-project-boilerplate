@@ -1,4 +1,11 @@
-import PageTemplate, { generateMetadata } from "./[slug]/page";
+import { PageWrapper } from "@/components";
 
-export { generateMetadata };
-export default PageTemplate;
+const HomePage: React.FC = () => {
+  return (
+    <PageWrapper pageLabel="home">
+      <main>Home</main>
+    </PageWrapper>
+  );
+};
+
+export default HomePage;

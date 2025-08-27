@@ -1,4 +1,4 @@
-import { BlockNode, RichText } from "@/types";
+import type { BlockNode, RichText } from "@/types";
 import Link from "next/link";
 import React from "react";
 
@@ -25,7 +25,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
 
         return React.createElement(
           tagName,
-          { className: `${tagName === "h3" ? "" : "mt-3 "}`, key: index },
+          { key: index },
           blockNode.children.map((child, i) => renderBlockNode(child, i)),
         );
       }

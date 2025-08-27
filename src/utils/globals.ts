@@ -1,4 +1,4 @@
-import { LocaleOption } from "@/types";
+import type { LocaleOption } from "@/types";
 import type { Config } from "@/payload-types";
 import configPromise from "@/payload.config";
 import { unstable_cache } from "next/cache";

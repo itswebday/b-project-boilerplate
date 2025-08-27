@@ -1,4 +1,4 @@
-import { Media, NavigationLinks, Users, Pages } from "@/collections";
+import { Media, Users } from "@/collections";
 import { DEFAULT_LOCALE, LOCALES } from "@/constants";
 import { plugins } from "@/plugins";
 import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres";
@@ -40,7 +40,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Media, Users, Pages, NavigationLinks],
+  collections: [Media, Users],
   globals: [],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
